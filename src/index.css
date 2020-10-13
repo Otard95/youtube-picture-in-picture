@@ -1,0 +1,111 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #468;
+}
+
+iframe {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  width: 100vw;
+  z-index: 10;
+}
+
+#title-bar {
+  -webkit-app-region: drag;
+  position: fixed;
+  top: 0px;
+  left: 0;
+  right: 0;
+  height: 20px;
+  z-index: 100;
+}
+
+#close-window {
+  -webkit-app-region: no-drag;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 30px;
+  padding: 0;
+  border: none;
+  color: black;
+  background-color: rgba(250, 100, 100, 0.5);
+  text-align: center;
+  outline: none;
+}
+
+#new-video {
+  -webkit-app-region: no-drag;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 30px;
+  width: 30px;
+  padding: 0;
+  border: none;
+  color: black;
+  background-color: rgba(100, 250, 100, 0.5);
+  text-align: center;
+  outline: none;
+}
+#new-video.close {
+  background-color: rgba(250, 240, 0, 0.5);
+}
+
+.new-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(50,50,50,.6);
+  z-index: 20;
+}
+
+.new-form {
+  width: 40%;
+  min-width: 400px;
+  height: 40%;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.new-form input {
+  border: 2px solid #085;
+  background-color: rgba(50,50,50,.3);
+  color: #999;
+  font-size: 1.5rem;
+  padding: .3rem;
+  border-radius: .3rem;
+  outline: none;
+  transition: border 150ms ease-in-out;
+}
+.new-form input:focus {
+  border: 2px solid #0a8;
+}
+
+.new-form button {
+  border: 2px solid #085;
+  background-color: rgba(20,40,180,.6);
+  color: #999;
+  font-size: 1.5rem;
+  padding: .3rem;
+  border-radius: .3rem;
+  transition: all 150ms ease-in-out;
+}
+
+.new-form button:disabled {
+  border: 2px solid #042;
+  background-color: rgba(20,40,180,.3);
+  color: #555;
+}
