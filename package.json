@@ -1,7 +1,7 @@
 {
-  "name": "picture-in-picture",
-  "productName": "picture-in-picture",
-  "version": "1.0.0",
+  "name": "youtube-picture-in-picture",
+  "productName": "youtube-picture-in-picture",
+  "version": "1.0.3",
   "description": "This is an app to make up for linux not supporting picture in picture feature on browser",
   "main": "dist/index.js",
   "scripts": {
@@ -21,13 +21,17 @@
     "forge": {
       "packagerConfig": {
         "icon": "src/icon.ico",
-        "appVersion": "1.0.1"
+        "name": "youtube-picture-in-picture",
+        "executableName": "youtube-picture-in-picture",
+        "appVersion": "1.0.3"
       },
       "makers": [
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "picture_in_picture"
+            "name": "youtube-picture-in-picture",
+            "icon": "src/icon.png",
+            "version": "1.0.3"
           }
         },
         {
@@ -38,7 +42,13 @@
         },
         {
           "name": "@electron-forge/maker-deb",
-          "config": {}
+          "config": {
+            "options": {
+              "name": "youtube-picture-in-picture",
+              "icon": "src/icon.png",
+              "version": "1.0.3"
+            }
+          }
         },
         {
           "name": "@electron-forge/maker-rpm",
@@ -62,7 +72,6 @@
   },
   "dependencies": {
     "@types/electron": "^1.6.10",
-    "electron-squirrel-startup": "^1.0.0",
-    "rpmbuild": "0.0.23"
+    "electron-squirrel-startup": "^1.0.0"
   }
 }

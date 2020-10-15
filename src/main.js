@@ -1,10 +1,10 @@
 (() => {
 
-  const embedHtml = (id) => `
+  const embedHtml = (id, time = 0) => `
     <iframe
       width="560"
       height="315"
-      src="https://www.youtube.com/embed/${id}"
+      src="https://www.youtube.com/embed/${id}?start=${time}"
       frameborder="0"
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
       allowfullscreen
@@ -34,16 +34,34 @@
   }
 
   /**
+   * @param {string} url
+   */
+  const qs = (url) => {
+    const [ _uri, query ] = url.split('?')
+    if (!query) return {}
+    const params = query.split('&')
+    return params
+      .map(p => p.split('='))
+      .reduce((data, [ k, v ]) => ({...data, [k]: v}), {})
+  }
+
+  /**
    * @param {string} url 
    */
   const getVideoId = (url) => {
-    const match = url.match(/https?:\/\/www\.youtube\.com\/watch\/?\?(?:[\w\[\]]+=.*)*(v=\w+)/)
-    if (!match) return null
-    const param = match[1]
-    if (typeof param === 'string') {
-      return param.substring(2)
+    if (!/https?:\/\/www\.youtube\.com\/watch\/?\?(?:[\w\[\]]+=.*)*/.test(url)) return null
+    const { v, t } = qs(url)
+    if (typeof v === 'string') {
+      return { id: v, start: t }
     }
     return null
+  }
+
+  const transformTime = (time) => {
+    if (!time) return;
+    if (typeof time === "number") return time
+    if (time.endsWith('s')) return Number(time.substring(0, time.length - 1))
+    return Number(time)
   }
 
   const initNewVideoDom = (newVideoDom) => {
@@ -57,10 +75,10 @@
       button.disabled = (getVideoId(input.value) === null)
     })
     button.addEventListener('click', () => {
-      const id = getVideoId(input.value)
+      const { id, start } = getVideoId(input.value)
       if (id) {
         const iFrame = document.querySelector('iframe')
-        const newIFrame = DOM(embedHtml(id))
+        const newIFrame = DOM(embedHtml(id, transformTime(start)))
         document.body.append(...newIFrame)
         iFrame && iFrame.remove()
         toggleNewVideoForm()

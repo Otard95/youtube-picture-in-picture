@@ -65,7 +65,7 @@ iframe {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(50,50,50,.6);
+  background-color: rgba(50,50,50,.7);
   z-index: 20;
 }
 
