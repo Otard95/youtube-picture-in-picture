@@ -64,6 +64,17 @@
     return Number(time)
   }
 
+  const createNewIframe = (url) => {
+    const { id, start } = getVideoId(url)
+    if (id) {
+      const iFrame = document.querySelector('iframe')
+      const newIFrame = DOM(embedHtml(id, transformTime(start)))
+      document.body.append(...newIFrame)
+      iFrame && iFrame.remove()
+      toggleNewVideoForm()
+    }
+  }
+
   const initNewVideoDom = (newVideoDom) => {
     if (!newVideoDom) return;
     const button = newVideoDom.querySelector('button')
@@ -74,27 +85,32 @@
     input.addEventListener('keyup', () => {
       button.disabled = (getVideoId(input.value) === null)
     })
-    button.addEventListener('click', () => {
-      const { id, start } = getVideoId(input.value)
-      if (id) {
-        const iFrame = document.querySelector('iframe')
-        const newIFrame = DOM(embedHtml(id, transformTime(start)))
-        document.body.append(...newIFrame)
-        iFrame && iFrame.remove()
-        toggleNewVideoForm()
-      }
-    })
+    button.addEventListener('click', () => createNewIframe(input.value))
   }
 
-  const toggleNewVideoForm = () => {
+  const toggleNewVideoForm = async () => {
     state.newFormOpen = !state.newFormOpen
 
     if (state.newFormOpen) {
+
+      let clipText;
+      try {
+        clipText = await (navigator
+          && navigator.clipboard
+          && navigator.clipboard.readText
+          && navigator.clipboard.readText())
+      } catch (e) {
+      }
+      
+      if (getVideoId(clipText) !== null) {
+        return createNewIframe(clipText)
+      }
       const newVideoDom = DOM(newVideoHtml)[0]
       initNewVideoDom(newVideoDom)
       document.body.append(newVideoDom)
     } else {
-      document.querySelector('.new-container').remove()
+      const c = document.querySelector('.new-container')
+      c && c.remove()
     }
 
     const newVideoBtn = document.querySelector('#new-video')
@@ -122,6 +138,12 @@
     if (document.readyState == "complete") {
       init();
     }
+
+    window.addEventListener('beforeunload', () => {
+      e.preventDefault();
+      e.stopPropagation()
+      console.log(e)
+    })
   };
 
 })()
